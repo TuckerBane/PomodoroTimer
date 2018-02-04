@@ -16,8 +16,9 @@ namespace WindowsFormsTimer
         private TimeSpan currentTime { get { return internalCurrentTime; }
                                        set {
                 internalCurrentTime = value;
+                // allow currentTime to be set during initilization
                 if (TimeRemainingLabel != null)
-                    TimeRemainingLabel.Text = internalCurrentTime.ToString("mm") + ":" + internalCurrentTime.ToString("ss");
+                    TimeRemainingLabel.Text = internalCurrentTime.ToString("mm':'ss"); // sync visual time with internal time
             }
         }
 
@@ -56,7 +57,7 @@ namespace WindowsFormsTimer
             if (timerPaused)
                 return;
             Timer time = sender as Timer;
-            currentTime -= new TimeSpan(0, 0, 0, 0, time.Interval * 100);
+            currentTime -= new TimeSpan(0, 0, 0, 0, time.Interval);
 
             if (currentTime.TotalMilliseconds <= 0)
             {
